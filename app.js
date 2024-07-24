@@ -190,7 +190,6 @@ document.addEventListener("DOMContentLoaded", () => {
             let cursor = event.target.result;
             if (cursor) {
                 let value = cursor.value.annotation.toLowerCase();
-                console.log('Checking:', value); // デバッグ: 検索中の値をログ出力
                 if (value.includes(keyword)) {
                     results.push(cursor.value.emoji);
                 }
