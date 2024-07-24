@@ -183,13 +183,17 @@ document.addEventListener("DOMContentLoaded", () => {
         let transaction = db.transaction(["emojis"], "readonly");
         let objectStore = transaction.objectStore("emojis");
         let index = objectStore.index("annotation");
-        let request = index.openCursor(IDBKeyRange.bound(keyword, keyword + '\uffff'));
+        let request = index.openCursor();
 
         let results = [];
         request.onsuccess = function(event) {
             let cursor = event.target.result;
             if (cursor) {
-                results.push(cursor.value.emoji);
+                let value = cursor.value.annotation.toLowerCase();
+                console.log('Checking:', value); // デバッグ: 検索中の値をログ出力
+                if (value.includes(keyword)) {
+                    results.push(cursor.value.emoji);
+                }
                 cursor.continue();
             } else {
                 console.log('Search results:', results); // デバッグ: 検索結果をログ出力
